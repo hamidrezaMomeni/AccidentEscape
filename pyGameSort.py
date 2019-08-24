@@ -26,19 +26,21 @@ import time
 # start pygame
 pygame.init()
 # set width and hieght for display window
-width = 900
+width = 700
 height = 550
 # set colors
 black = (0,0,0)
 white = (255,255,255)
-red = (200,0,0)
+red = (255,0,0)
+lightRed = (150,0,0)
 orange = (255, 100, 0)
 blue = (0, 83, 255)
 yellow = (245, 219, 0)
-green = (0,240,0)
-lightGreen = (0,230,0)
+green = (0,255,0)
+lightGreen = (0,150,0)
 purple = (148, 3, 252)
 pink = (252, 3, 140)
+gray = (240,240,240)
 colorList = [green, pink, red, blue, purple, yellow, orange]
 # create game display and caption for title window and clock
 gameDisplay = pygame.display.set_mode((width, height))
@@ -46,6 +48,26 @@ pygame.display.set_caption("AccidentEscape Game")
 clock = pygame.time.Clock()
 # get and load car image
 carImg = pygame.image.load("Bug.png")
+# hovering button
+def button(msg,x,y,w,h,ia,ac):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay,ia,(x,y,w,h))
+        if click[0] == 1:
+            gameLoop()
+    else:
+        pygame.draw.rect(gameDisplay,ac,(x,y,w,h))
+        if click[0] == 1:
+            quit()
+    
+    smallText = pygame.font.Font("freesansbold.ttf",20)
+    TextSurf, TextRect = textObjects(msg, smallText)
+    TextRect.center = ((x + (w/2)), (y + (h/2)))
+    gameDisplay.blit(TextSurf,TextRect)
+    mouse = pygame.mouse.get_pos()
+    
 # this function drawing a rect object and insert into game display
 def stuff(stuffX, stuffY, stuffW, stuffH, color):
     pygame.draw.rect(gameDisplay,color,[stuffX, stuffY, stuffW, stuffH])
@@ -65,7 +87,7 @@ def messageDisplay(msg):
     gameDisplay.blit(textSurf, textRect)
     pygame.display.update()
     time.sleep(4)
-    gameLoop()
+    gameIntro("are you want play again?")
 # when user accidented stop game and show message
 def crash():
     messageDisplay("you Crashed !!")
@@ -75,23 +97,22 @@ def score(count):
     text = font.render("Score: {}".format(str(count)), True, black)
     gameDisplay.blit(text, (1,1))
 # welcome screen to show user
-def gameIntro():
+def gameIntro(title):
     intro = True
     while intro == True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()                
-        gameDisplay.fill(white)
+        gameDisplay.fill(gray)
         largText = pygame.font.Font("freesansbold.ttf", 50)
-        textSurf, textRect = textObjects("Game Starting, You Ready?", largText)
+        textSurf, textRect = textObjects(title, largText)
         textRect.center = ((width/2), (height/2))
         gameDisplay.blit(textSurf, textRect)
-        mouse = pygame.mouse.get_pos()
-        #if 150 + 100 > mouse[0] 
         # button for start or quit from game
-        pygame.draw.rect(gameDisplay, green, (200,450,100,50))
-        pygame.draw.rect(gameDisplay, red, (600,450,100,50))
+        button("Play",100,450,100,50,green,lightGreen)
+        button("Exit",500,450,100,50,red,lightRed)
+        #pygame.draw.rect(gameDisplay, red, (500,450,100,50))
         pygame.display.update()
 # Game components loop
 bestScore = 0
@@ -132,7 +153,7 @@ def gameLoop():
         # apply x change for car
         xPosition += xChange
         # filling screen with white color
-        gameDisplay.fill(white)
+        gameDisplay.fill(gray)
         # show car in x,y Position 
         carPosition(xPosition, yPosition)
         # show user score in the top window
@@ -155,8 +176,8 @@ def gameLoop():
         # when accident stuff with car
         
         font = pygame.font.SysFont(None, 30)
-        text = font.render("Best Score: {}".format(str(bestScore)), True, green)
-        gameDisplay.blit(text, (750,1))
+        text = font.render("Best Score: {}".format(str(bestScore)), True, lightGreen)
+        gameDisplay.blit(text, (550,1))
         pygame.display.update()
         
         
@@ -170,7 +191,7 @@ def gameLoop():
         # run game with 80 frame/second
         clock.tick(80)
 # running game form the first time
-#gameIntro()
+gameIntro("Game Starting, You Ready?")
 gameLoop()
 # quit from pygame library and python file
 pygame.quit()
