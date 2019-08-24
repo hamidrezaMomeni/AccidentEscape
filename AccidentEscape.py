@@ -178,7 +178,7 @@ def gameLoop():
         # rain stuff from sky and calculate user score
         if stuffStartY > height:
             stuffStartY = 0 - stuffHeight
-            stuffStartX = random.randrange(0,width)
+            stuffStartX = random.randrange(64,width - 64)
             #stuffColor = random.choice(colorList)
             car = random.choice(carList)
             counter += 1
