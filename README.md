@@ -11,3 +11,4 @@ clone this project on your computer and run in terminal "python AccidentEscape.p
 go to site: "python.org" and download and install python <br>
 type to cmd : "py -m pip install -U pygame --user" <br>
 download zip file this project and double click on AccidentEscape.py
+
