@@ -56,18 +56,19 @@ carList = (carImg1,carImg2,carImg3,carImg4,carImg5)
 car = random.choice(carList)
 boyImg = pygame.image.load("boy.png")
 # hovering button
-def button(msg,x,y,w,h,ia,ac):
+def button(msg,x,y,w,h,ia,ac,action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     
     if x + w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay,ia,(x,y,w,h))
-        if click[0] == 1:
-            gameLoop()
+        if click[0] == 1 and action != None:
+            if action == "play":
+                gameLoop()
+            else: 
+                quit()
     else:
         pygame.draw.rect(gameDisplay,ac,(x,y,w,h))
-        if click[0] == 1:
-            quit()
     
     smallText = pygame.font.Font("freesansbold.ttf",20)
     TextSurf, TextRect = textObjects(msg, smallText)
@@ -118,8 +119,8 @@ def gameIntro(title):
         textRect.center = ((width/2), (height/2))
         gameDisplay.blit(textSurf, textRect)
         # button for start or quit from game
-        button("Play",100,450,100,50,green,lightGreen)
-        button("Exit",500,450,100,50,red,lightRed)
+        button("Play",100,450,100,50,green,lightGreen,"play")
+        button("Exit",500,450,100,50,red,lightRed,"quit")
         #pygame.draw.rect(gameDisplay, red, (500,450,100,50))
         pygame.display.update()
 # Game components loop
