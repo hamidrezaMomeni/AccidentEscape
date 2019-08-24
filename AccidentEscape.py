@@ -27,7 +27,7 @@ import time
 pygame.init()
 # set width and hieght for display window
 width = 700
-height = 550
+height = 600
 # set colors
 black = (0,0,0)
 white = (255,255,255)
@@ -47,7 +47,14 @@ gameDisplay = pygame.display.set_mode((width, height))
 pygame.display.set_caption("AccidentEscape Game")
 clock = pygame.time.Clock()
 # get and load car image
-carImg = pygame.image.load("Bug.png")
+carImg1 = pygame.image.load("Bug.png")
+carImg2 = pygame.image.load("Bug2.png")
+carImg3 = pygame.image.load("Bug3.png")
+carImg4 = pygame.image.load("Bug4.png")
+carImg5 = pygame.image.load("Bug5.png")
+carList = (carImg1,carImg2,carImg3,carImg4,carImg5)
+car = random.choice(carList)
+boyImg = pygame.image.load("boy.png")
 # hovering button
 def button(msg,x,y,w,h,ia,ac):
     mouse = pygame.mouse.get_pos()
@@ -69,11 +76,12 @@ def button(msg,x,y,w,h,ia,ac):
     mouse = pygame.mouse.get_pos()
     
 # this function drawing a rect object and insert into game display
-def stuff(stuffX, stuffY, stuffW, stuffH, color):
-    pygame.draw.rect(gameDisplay,color,[stuffX, stuffY, stuffW, stuffH])
+# , stuffW, stuffH, color
+def stuff(stuffX, stuffY,car):
+    gameDisplay.blit(car, (stuffX,stuffY))
 # set x,y position car for show to game display
 def carPosition(x,y):
-    gameDisplay.blit(carImg, (x,y))
+    gameDisplay.blit(boyImg, (x,y))
 # get render and return text with your font selection
 def textObjects(text,fonts):
     textSurface = fonts.render(text, True, black)
@@ -121,18 +129,19 @@ def gameLoop():
     xPosRange = (0.25,0.45,0.65,0.85)
     xPosRand = random.choice(xPosRange)
     xPosition = (width * xPosRand) 
-    yPosition = (height * 0.85)
+    yPosition = (height * 0.88)
     xChange = 0
     counter = 0
-    carWidth = 32
+    carWidth = 64
     global bestScore
     # set some variable for generate stuff
     stuffStartX = random.randrange(0,width)
     stuffStartY = -600
-    stuffSpeed = 7
-    stuffWidth = 100
-    stuffHeight = 100
-    stuffColor = random.choice(colorList)
+    stuffSpeed = 4
+    stuffWidth = 64
+    stuffHeight = 64
+    #stuffColor = random.choice(colorList)
+    car = random.choice(carList)
     # set default state for user
     gameExit = False
     # An endless loop until the user loss
@@ -159,7 +168,8 @@ def gameLoop():
         # show user score in the top window
         score(counter)
         # generate stuff and scroll down from sky
-        stuff(stuffStartX,stuffStartY,stuffWidth,stuffHeight,stuffColor)
+        stuff(stuffStartX,stuffStartY,car)
+        #########stuff(stuffStartX,stuffStartY,stuffWidth,stuffHeight,stuffColor)
         stuffStartY += stuffSpeed
         # when car accidented with left and right wall
         if xPosition > width - 32 or xPosition < 0:
@@ -168,7 +178,8 @@ def gameLoop():
         if stuffStartY > height:
             stuffStartY = 0 - stuffHeight
             stuffStartX = random.randrange(0,width)
-            stuffColor = random.choice(colorList)
+            #stuffColor = random.choice(colorList)
+            car = random.choice(carList)
             counter += 1
             # if score 5 level upgraded speed stuff up to +1
             if counter % 5 == 0:
@@ -187,6 +198,7 @@ def gameLoop():
                     bestScore = counter
                 crash()
         # game display updating
+        
         pygame.display.update()
         # run game with 80 frame/second
         clock.tick(80)
