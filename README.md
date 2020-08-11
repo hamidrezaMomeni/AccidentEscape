@@ -12,6 +12,6 @@ go to site: "python.org" and download and install python <br>
 type to cmd : "py -m pip install -U pygame --user" <br>
 download zip file this project and double click on AccidentEscape.py
 
-##TODO
-- [] slowing speed objects down
-- [] trying to adding this feature: playing online with friends
+## TODO
+- [x] slowing speed objects down
+- [x] trying to adding this feature: playing online with friends
