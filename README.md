@@ -14,4 +14,4 @@ download zip file this project and double click on AccidentEscape.py
 
 ## TODO
 - [x] slowing speed objects down
-- [] trying to adding this feature: playing online with friends
+- [ ] trying to adding this feature: playing online with friends
